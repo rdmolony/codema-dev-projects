@@ -26,31 +26,15 @@ from ops.join_nearest import join_nearest_points
 
 # %% tags=["parameters"]
 upstream = [
-    "download_esb_substation_capacities",
-    "download_dublin_small_area_boundaries",
+    "extract_dublin_substations",
+    "check_electricity_grid_cad_data_is_uploaded",
 ]
 product = None
 
 # %%
-lv_substations = (
-    pd.read_csv(upstream["download_esb_substation_capacities"])
-    .pipe(
-        convert_dataframe_to_geodataframe,
-        x="Longitude",
-        y="Latitude",
-        from_crs="EPSG:4326",
-        to_crs="EPSG:2157",
-    )
-    .query("`Voltage Class` == 'LV'")
+dublin_lv_substations = gpd.read_file(upstream["extract_dublin_substations"]).query(
+    "`Voltage Class` == 'LV'"
 )
-
-# %%
-small_area_boundaries = gpd.read_file(
-    upstream["download_dublin_small_area_boundaries"]
-).to_crs("EPSG:2157")
-
-# %%
-dublin_lv_substations = gpd.sjoin(lv_substations, small_area_boundaries, op="within")
 
 # %%
 cluster_coordinates = cluster_points(
