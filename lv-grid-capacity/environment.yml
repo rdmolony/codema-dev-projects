@@ -1,4 +1,4 @@
-name: lv
+name: electricity-grid
 channels:
   - conda-forge
 dependencies:
@@ -6,7 +6,9 @@ dependencies:
   - geopandas
   - ipykernel
   - scikit-learn
+  - poetry
   
   - pip
   - pip:
     - git+https://github.com/codema-dev/tasks
+    - .
