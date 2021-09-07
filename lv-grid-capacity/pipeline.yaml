@@ -20,4 +20,4 @@ tasks:
   - source: cluster_lv_substations.py
     product:
       nb: data/notebooks/cluster_lv_substations.ipynb
-      gpkg: data/processed/cluster_lv_substations.csv
+      gpkg: data/processed/cluster_lv_substations.gpkg

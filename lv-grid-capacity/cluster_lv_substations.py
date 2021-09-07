@@ -19,9 +19,9 @@ from scipy.spatial import cKDTree
 from shapely.geometry import MultiPoint
 from sklearn.cluster import DBSCAN
 
-from _cluster import cluster_points
-from _convert import convert_dataframe_to_geodataframe
-from _join_nearest import join_nearest_points
+from ops.cluster import cluster_points
+from ops.convert import convert_dataframe_to_geodataframe
+from ops.join_nearest import join_nearest_points
 
 
 # %% tags=["parameters"]
