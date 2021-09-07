@@ -17,6 +17,9 @@ tasks:
       filepath: data/raw/ESBdata_20210107
     product: data/raw/ESBdata_20210107
 
+  - source: tasks.extract_dublin_substations
+    product: data/processed/dublin-heatmap-download-version-nov-2020.gpkg
+
   - source: link_lv_substations_to_electoral_districts.py
     product:
       nb: data/notebooks/link_lv_substations_to_electoral_districts.ipynb
