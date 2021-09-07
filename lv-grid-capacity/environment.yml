@@ -2,18 +2,10 @@ name: lv
 channels:
   - conda-forge
 dependencies:
-  - pyarrow
-  - pandas
-  - prefect
-  - python-dotenv
-  - graphviz
-
-  # dev
-  - black
-  - mypy
-  - ipython
+  - ploomber
+  - geopandas
+  - ipykernel
   
   - pip
   - pip:
-    - graphviz
-    - prefect-geopandas-serializer
+    - git+https://github.com/codema-dev/tasks
