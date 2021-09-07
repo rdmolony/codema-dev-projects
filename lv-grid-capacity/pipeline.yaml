@@ -16,3 +16,8 @@ tasks:
       nb: data/notebooks/link_lv_substations_to_electoral_districts.ipynb
       csv: data/processed/lv_substations_in_electoral_districts.csv
       gpkg: data/processed/electoral_district_lv_capacities.gpkg
+  
+  - source: cluster_lv_substations.py
+    product:
+      nb: data/notebooks/cluster_lv_substations.ipynb
+      gpkg: data/processed/cluster_lv_substations.csv

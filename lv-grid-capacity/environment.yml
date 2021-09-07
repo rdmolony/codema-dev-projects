@@ -5,6 +5,7 @@ dependencies:
   - ploomber
   - geopandas
   - ipykernel
+  - scikit-learn
   
   - pip
   - pip:
