@@ -32,11 +32,10 @@ tasks:
       csv: data/processed/lv_substations_in_electoral_districts.csv
       gpkg: data/processed/electoral_district_lv_capacities.gpkg
   
-  - source: tasks.extract_mv_and_lv_network
-    product:
-      gpkg: data/processed/dublin_mv_and_lv_network.gpkg
+  - source: tasks.extract_dublin_mv_and_lv_network
+    product: data/processed/dublin_mv_and_lv_network.gpkg
 
-  - source: cluster_lv_substations.py
-    product:
-      nb: data/notebooks/cluster_lv_substations.ipynb
-      gpkg: data/processed/cluster_lv_substations.gpkg
+  # - source: cluster_lv_substations.py
+  #   product:
+  #     nb: data/notebooks/cluster_lv_substations.ipynb
+  #     gpkg: data/processed/cluster_lv_substations.gpkg
