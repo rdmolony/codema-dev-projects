@@ -36,3 +36,13 @@ def extract_dublin_mv_and_lv_network(upstream: Any, product: Any) -> None:
     ]
     network = gpd.GeoDataFrame(pd.concat(networks), crs="EPSG:29903").to_crs(epsg=2157)
     network.to_file(str(product), driver="GPKG")
+
+
+def extract_network_lines(upstream: Any, product: Any) -> None:
+    network = gpd.read_file(
+        str(upstream["extract_dublin_mv_and_lv_network"]), driver="GPKG"
+    )
+
+    # explode converts multi-part geometries to single-part which is req by networkx
+    network_lines = network.query("Level in [1, 2, 10, 11]").explode()
+    network_lines.to_file(str(product), driver="GPKG")

@@ -35,6 +35,9 @@ tasks:
   - source: tasks.extract_dublin_mv_and_lv_network
     product: data/processed/dublin_mv_and_lv_network.gpkg
 
+  - source: tasks.extract_network_lines
+    product: data/processed/dublin_mv_and_lv_network_lines.gpkg
+    
   # - source: cluster_lv_substations.py
   #   product:
   #     nb: data/notebooks/cluster_lv_substations.ipynb
