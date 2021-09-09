@@ -2,9 +2,11 @@ from pathlib import Path
 from typing import Any
 
 import geopandas as gpd
+import networkx as nx
+import numpy as np
 import pandas as pd
 from shapely.geometry import Point
-
+from tqdm import tqdm
 
 from ops.convert import convert_dataframe_to_geodataframe
 from ops.io import read_networkx_gpkg
@@ -71,3 +73,32 @@ def find_nearest_nodes_to_stations_on_network(upstream: Any, product: Any) -> No
         .to_frame()
     )
     nearest_node_ids.to_parquet(product)
+
+
+def calculate_path_lengths_along_network_between_nodes(
+    upstream: Any, product: Any
+) -> None:
+    G = read_networkx_gpkg(str(upstream["extract_network_lines"]))
+    nearest_node_ids = pd.read_parquet(
+        upstream["find_nearest_nodes_to_stations_on_network"]
+    ).squeeze()
+
+    # convert "(x,y)" to (x,y) as G uses tuples not strings as keys
+    nearest_node_ids = nearest_node_ids.apply(eval)
+
+    dirpath = Path(product)
+    dirpath.mkdir(exist_ok=True)
+
+    unique_nearest_node_ids = nearest_node_ids.drop_duplicates()
+    for i, origin in enumerate(tqdm(unique_nearest_node_ids)):
+        individual_distances = []
+        for target in unique_nearest_node_ids:
+            try:
+                length = nx.dijkstra_path_length(
+                    G, source=origin, target=target, weight="length"
+                )
+            except nx.NetworkXNoPath:
+                length = np.inf
+            individual_distances.append(length)
+        all_distances = pd.DataFrame({f"{i}": individual_distances})
+        all_distances.to_parquet(dirpath / f"{i}.parquet")

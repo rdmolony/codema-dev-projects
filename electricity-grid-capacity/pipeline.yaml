@@ -44,5 +44,14 @@ tasks:
       gpkg: data/processed/lv_substation_clusters.gpkg
       summary: data/processed/lv_substation_cluster_demands.gpkg
 
-  - source: tasks.find_nearest_nodes_to_stations_on_network
-    product: data/processed/nearest_network_nodes_to_substations.parquet
+  # - source: tasks.find_nearest_nodes_to_stations_on_network
+  #   product: data/processed/nearest_network_nodes_to_substations.parquet
+
+  # - source: tasks.calculate_path_lengths_along_network_between_nodes
+  #   product: data/interim/node_to_node_distances
+
+  # - source: cluster_lv_substations_via_network.py
+  #   product:
+  #     nb: data/notebooks/cluster_lv_substations_via_network.ipynb
+  #     gpkg: data/processed/lv_substation_clustered_via_network.gpkg
+  #     summary: data/processed/lv_substation_network_cluster_demands.gpkg
