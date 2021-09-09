@@ -53,6 +53,9 @@ substation_clusters = lv_substations[["geometry"]].join(
 substation_clusters.to_file(str(product["gpkg"]), driver="GPKG")
 
 # %%
+substation_clusters.plot(c=substation_clusters["cluster_ids"], figsize=(20, 20))
+
+# %%
 n_clusters = [2, 10, 20, 40, 100]
 scores = []
 for i in n_clusters:
