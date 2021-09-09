@@ -13,41 +13,50 @@
 
 # %%
 import geopandas as gpd
-import numpy as np
 import pandas as pd
-from scipy.spatial import cKDTree
-from shapely.geometry import MultiPoint
-from sklearn.cluster import DBSCAN
-
-from ops.cluster import cluster_points
-from ops.convert import convert_dataframe_to_geodataframe
-from ops.join_nearest import join_nearest_points
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 
 # %% tags=["parameters"]
-upstream = [
-    "extract_dublin_substations",
-    "check_electricity_grid_cad_data_is_uploaded",
-]
+upstream = ["extract_dublin_substations"]
 product = None
 
 # %%
-dublin_lv_substations = gpd.read_file(upstream["extract_dublin_substations"]).query(
-    "`Voltage Class` == 'LV'"
+lv_substations = (
+    gpd.read_file(upstream["extract_dublin_substations"])
+    .query("`Voltage Class` == 'LV'")
+    .reset_index(drop=True)
 )
 
 # %%
-cluster_coordinates = cluster_points(
-    dublin_lv_substations,
-    selected_model="KMeans",
-    model_parameters={"n_clusters": 100},
+points = pd.DataFrame(
+    {"x": lv_substations.geometry.x, "y": lv_substations.geometry.y}
+).to_numpy()
+
+# %%
+model = KMeans(n_clusters=40)
+cluster_ids = model.fit_predict(points)
+
+# %%
+silhouette_score(points, cluster_ids)
+
+# %%
+pd.Series(cluster_ids).value_counts().tail()
+
+# %%
+substation_clusters = lv_substations[["geometry"]].join(
+    pd.DataFrame({"cluster_ids": cluster_ids})
 )
 
 # %%
-lv_substation_clusters = join_nearest_points(
-    dublin_lv_substations,
-    cluster_coordinates,
-)
+substation_clusters.to_file(str(product["gpkg"]), driver="GPKG")
 
 # %%
-lv_substation_clusters.to_file(product["gpkg"], driver="GPKG")
+n_clusters = [2, 10, 20, 40, 100]
+scores = []
+for i in n_clusters:
+    model = KMeans(n_clusters=i)
+    cluster_ids = model.fit_predict(points)
+    scores.append(silhouette_score(points, cluster_ids))
+pd.Series(scores, index=n_clusters).plot()
