@@ -17,9 +17,11 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
+from ops.join_nearest import join_nearest_points
+
 
 # %% tags=["parameters"]
-upstream = ["extract_dublin_substations"]
+upstream = ["extract_dublin_substations", "download_dublin_small_area_boundaries"]
 product = None
 
 # %%
@@ -27,6 +29,11 @@ lv_substations = (
     gpd.read_file(upstream["extract_dublin_substations"])
     .query("`Voltage Class` == 'LV'")
     .reset_index(drop=True)
+)
+
+# %%
+small_area_boundaries = gpd.read_file(
+    upstream["download_dublin_small_area_boundaries"], driver="GPKG"
 )
 
 # %%
@@ -75,3 +82,23 @@ for i in n_clusters:
     cluster_ids = model.fit_predict(points)
     scores.append(silhouette_score(points, cluster_ids))
 pd.Series(scores, index=n_clusters).plot()
+
+# %%
+small_area_centroids = (
+    small_area_boundaries.geometry.representative_point().rename("geometry").to_frame()
+)
+
+# %%
+small_area_substations = join_nearest_points(
+    small_area_centroids, substation_clusters[["cluster_ids", "geometry"]]
+)
+
+# %%
+cluster_polygons = (
+    pd.concat([small_area_boundaries, small_area_substations["cluster_ids"]], axis=1)
+    .dissolve(by="cluster_ids")
+    .join(cluster_demands)
+)
+
+# %%
+cluster_polygons.to_file(str(product["gpkg"]), driver="GPKG")

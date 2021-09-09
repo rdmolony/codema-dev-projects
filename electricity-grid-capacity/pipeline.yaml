@@ -41,7 +41,7 @@ tasks:
   - source: cluster_lv_substations.py
     product:
       nb: data/notebooks/cluster_lv_substations.ipynb
-      gpkg: data/processed/lv_substation_clusters.gpkg
+      gpkg: data/processed/lv_substation_cluster_polygons.gpkg
       summary: data/processed/lv_substation_cluster_demands.gpkg
 
   # - source: tasks.find_nearest_nodes_to_stations_on_network
