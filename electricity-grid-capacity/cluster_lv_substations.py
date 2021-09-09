@@ -45,9 +45,21 @@ silhouette_score(points, cluster_ids)
 pd.Series(cluster_ids).value_counts().tail()
 
 # %%
-substation_clusters = lv_substations[["geometry"]].join(
+use_columns = [
+    "Installed Capacity MVA",
+    "SLR Load MVA",
+    "Demand Available MVA",
+    "geometry",
+]
+substation_clusters = lv_substations[use_columns].join(
     pd.DataFrame({"cluster_ids": cluster_ids})
 )
+
+# %%
+cluster_demands = substation_clusters.groupby("cluster_ids").sum()
+
+# %%
+cluster_demands.to_csv(product["summary"])
 
 # %%
 substation_clusters.to_file(str(product["gpkg"]), driver="GPKG")

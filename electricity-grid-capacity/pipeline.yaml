@@ -42,3 +42,4 @@ tasks:
     product:
       nb: data/notebooks/cluster_lv_substations.ipynb
       gpkg: data/processed/lv_substation_clusters.gpkg
+      summary: data/processed/lv_substation_cluster_demands.gpkg
