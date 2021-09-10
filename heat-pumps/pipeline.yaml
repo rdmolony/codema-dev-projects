@@ -16,3 +16,4 @@ tasks:
     product:
       nb: data/notebooks/map_heat_pump_viability.ipynb
       gpkg: data/processed/small_area_heat_pump_viability.gpkg
+      html: data/processed/small_area_heat_pump_viability.html

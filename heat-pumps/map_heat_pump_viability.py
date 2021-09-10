@@ -15,6 +15,8 @@
 import geopandas as gpd
 import pandas as pd
 
+import pandas_bokeh
+
 # + tags=["parameters"]
 upstream = [
     "calculate_small_area_heat_pump_viability",
@@ -37,4 +39,11 @@ small_area_heat_pump_viability_map.plot(
     column="percentage_of_heat_pump_ready_dwellings", figsize=(20, 20), legend=True
 )
 
-small_area_heat_pump_viability_map.to_file(product["gpkg"])
+pandas_bokeh.output_file(product["html"])
+small_area_heat_pump_viability_map.plot_bokeh(
+    figsize=(500, 500),
+    category="percentage_of_heat_pump_ready_dwellings",
+    hovertool_string="@{percentage_of_heat_pump_ready_dwellings}%",
+)
+
+small_area_heat_pump_viability_map.to_file(product["gpkg"], driver="GPKG")
