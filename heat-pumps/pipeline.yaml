@@ -1,0 +1,7 @@
+on_render: hooks.load_environmental_variables
+tasks:
+  - source: codema_dev_tasks.requests.fetch_file
+    name: download_buildings
+    params:
+      url: s3://codema-dev/dublin_census_2016_filled_with_ber_public_14_05_2021.parquet
+    product: data/external/dublin_census_2016_filled_with_ber_public_14_05_2021.parquet
