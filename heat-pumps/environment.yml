@@ -4,6 +4,9 @@ channels:
 dependencies:
   # required for use of dag-level hooks via the Spec API
   - ploomber >=0.12.8
+  - python-dotenv
+  - pandas
+  - pyarrow
   - pip
   - pip:
     - git+https://github.com/codema-dev/tasks
