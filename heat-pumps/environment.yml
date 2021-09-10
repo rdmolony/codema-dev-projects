@@ -1,0 +1,9 @@
+name: heat-pumps
+channels:
+- conda-forge
+dependencies:
+  # required for use of dag-level hooks via the Spec API
+  - ploomber >=0.12.8
+  - pip
+  - pip:
+    - git+https://github.com/codema-dev/tasks
