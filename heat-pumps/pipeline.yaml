@@ -12,3 +12,7 @@ tasks:
     product: data/external/dublin_small_area_boundaries_in_routing_keys.gpkg
   - source: tasks.calculate_small_area_heat_pump_viability
     product: data/processed/small_area_heat_pump_viability.csv
+  - source: map_heat_pump_viability.py
+    product:
+      nb: data/notebooks/map_heat_pump_viability.ipynb
+      gpkg: data/processed/small_area_heat_pump_viability.gpkg
