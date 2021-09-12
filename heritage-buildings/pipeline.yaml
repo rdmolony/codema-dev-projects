@@ -27,3 +27,7 @@ tasks:
     product: data/processed/dublin_national_inventory_of_architectural_heritage_buildings.gpkg
   - source: tasks.extract_dublin_smr_houses
     product: data/processed/dublin_sites_and_monuments_record_houses.gpkg
+  - source: map_percentage_heritage_zones.py
+    product:
+      nb: data/notebooks/map_percentage_heritage_zones.ipynb
+      gpkg: data/processed/2021_05_percentage_heritage_zones.gpkg
