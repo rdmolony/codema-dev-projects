@@ -4,6 +4,8 @@ channels:
 dependencies:
   - geopandas
   - ploomber
+  - pyarrow
+  - python-dotenv
   - pip
   - pip:
     - git+https://github.com/codema-dev/tasks

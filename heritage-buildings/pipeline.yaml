@@ -1,3 +1,7 @@
+on_render:
+  dotted_path: codema_dev_tasks.hooks.load_environmental_variables
+  dotenv_path: ".env"
+
 tasks:
   - source: codema_dev_tasks.requests.fetch_file
     name: download_dublin_sites_and_monuments_record_buildings
@@ -14,6 +18,11 @@ tasks:
     params:
       url: https://codema-dev.s3.eu-west-1.amazonaws.com/dublin_small_area_boundaries_in_routing_keys.gpkg
     product: data/external/dublin_small_area_boundaries_in_routing_keys.gpkg
+  - source: codema_dev_tasks.requests.fetch_file
+    name: download_buildings
+    params:
+      url: s3://codema-dev/dublin_census_2016_filled_with_ber_public_14_05_2021.parquet
+    product: data/external/dublin_census_2016_filled_with_ber_public_14_05_2021.parquet
   - source: tasks.extract_dublin_niah_houses
     product: data/processed/dublin_national_inventory_of_architectural_heritage_buildings.gpkg
   - source: tasks.extract_dublin_smr_houses
