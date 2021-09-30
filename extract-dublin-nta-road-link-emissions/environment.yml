@@ -1,0 +1,11 @@
+name: extract-nta-road-links
+channels:
+  - conda-forge
+dependencies:
+  - ploomber
+  - geopandas
+  - requests
+  - aiohttp
+  - pip
+  - pip:
+    - codema-dev-tasks==0.1.0
